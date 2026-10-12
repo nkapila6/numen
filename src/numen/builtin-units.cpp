@@ -20,8 +20,8 @@ std::span<const UnitDef> units::builtins() {
     // length
     {.id = "meter",      .aliases = {"m", "metre"}, .symbol = "m",  .factor = 1,        .dimension = dimensions::LENGTH, .family = families::METRIC, .prefixable = true},
     {.id = "micrometer", .aliases = {"micron"},     .symbol = "µm", .factor = 1e-6,     .dimension = dimensions::LENGTH, .family = families::METRIC},
-    {.id = "inch",       .aliases = {"in"},         .symbol = "in", .factor = 0.0254,   .dimension = dimensions::LENGTH, .family = families::IMPERIAL},
-    {.id = "foot",       .aliases = {"ft", "feet"}, .symbol = "ft", .factor = 0.3048,   .dimension = dimensions::LENGTH, .family = families::IMPERIAL},
+    {.id = "inch",       .aliases = {"in", "\""},         .symbol = "in", .factor = 0.0254,   .dimension = dimensions::LENGTH, .family = families::IMPERIAL},
+    {.id = "foot",       .aliases = {"ft", "feet", "'"}, .symbol = "ft", .factor = 0.3048,   .dimension = dimensions::LENGTH, .family = families::IMPERIAL},
     {.id = "yard",       .aliases = {"yd"},         .symbol = "yd", .factor = 0.9144,   .dimension = dimensions::LENGTH, .family = families::IMPERIAL},
     {.id = "mile",       .aliases = {"mi"},         .symbol = "mi", .factor = 1609.344, .dimension = dimensions::LENGTH, .family = families::IMPERIAL},
     {.id = "nauticalmile", .aliases = {"nmi"},                .symbol = "nmi", .name = "nautical mile", .factor = 1852,                   .dimension = dimensions::LENGTH, .family = families::IMPERIAL},

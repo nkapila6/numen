@@ -25,9 +25,8 @@ void persistOnDisk(const std::filesystem::path &path, std::string_view body) {
 
 fs::path persistPath() {
 #ifdef _WIN32
-  auto cacheHome = numen::getEnv("LOCALAPPDATA")
-                       .transform([](auto &&s) { return fs::path{s}; })
-                       .value_or(fs::path{"."});
+  auto cacheHome =
+      numen::getEnv("LOCALAPPDATA").transform([](auto &&s) { return fs::path{s}; }).value_or(fs::path{"."});
 #else
   auto cacheHome = numen::getEnv("XDG_CACHE_HOME")
                        .transform([](auto &&s) { return fs::path{s}; })

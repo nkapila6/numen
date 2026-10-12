@@ -1,9 +1,11 @@
 #include "fn.hpp"
 #include "computed.hpp"
+#include "datetime.hpp"
 #include "numen/numen.hpp"
 #include "utils.hpp"
 #include <algorithm>
 #include <cctype>
+#include <chrono>
 #include <cmath>
 #include <cstdint>
 #include <format>
@@ -354,6 +356,17 @@ FunctionDatabase makeBuiltin() {
       return Computed{out};
     }
     throw std::runtime_error("Invalid type");
+  });
+
+  // <timestamp> to epoch
+  // epoch(<timestamp>)
+  // fromEpoch will automatically try to figure out what resolution is used
+  // for the timestamp
+  db.addConverter("epoch", [](const FunctionCtx &ctx) {
+    ctx.expectArgs(1);
+    const auto &epoch = ctx.number(0);
+    const auto dt = fromEpoch(epoch.n.toDouble());
+    return Computed{dt};
   });
 
   db.addConverter("json", [](const FunctionCtx &ctx) {

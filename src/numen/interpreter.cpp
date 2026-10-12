@@ -305,9 +305,9 @@ private:
     if (when.time < m_now)
       throw std::runtime_error("Using until to compute past dates is disallowed, use normal arithmetic");
     if (!until.unit) {
-      const DateTime now{ .time = m_now, .tz = when.tz, .offset = when.offset };
+      const DateTime now{.time = m_now, .tz = when.tz, .offset = when.offset};
 
-      return Computed{ subtractDates(now, when) };
+      return Computed{subtractDates(now, when)};
     }
 
     const std::chrono::duration<double> secs = when.time - m_now;

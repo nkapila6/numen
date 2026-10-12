@@ -87,8 +87,8 @@ static void printASTNode(std::ostream &os, const Expression &expr, int depth = 0
           os << ident() << "}\n";
         } else if constexpr (std::is_same_v<T, UntilExpression>) {
           os << ident() << "Until " << rang::fg::green
-              << (value.unit ? value.unit->simpleName() : std::string_view{"time"})
-              << rang::fg::reset << " {\n";
+             << (value.unit ? value.unit->simpleName() : std::string_view{"time"}) << rang::fg::reset
+             << " {\n";
           printASTNode(os, *value.target, depth + 1);
           os << ident() << "}\n";
         } else if constexpr (std::is_same_v<T, Duration>) {

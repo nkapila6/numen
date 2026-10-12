@@ -22,8 +22,8 @@ std::expected<std::string, std::string> httpGet(const std::string &origin, const
   if (!WinHttpCrackUrl(url.c_str(), 0, 0, &parts)) return std::unexpected{lastError("WinHttpCrackUrl")};
   const std::wstring host{parts.lpszHostName, parts.dwHostNameLength};
 
-  const Handle session{WinHttpOpen(L"libnumen", WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY,
-                                   WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0),
+  const Handle session{WinHttpOpen(L"libnumen", WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY, WINHTTP_NO_PROXY_NAME,
+                                   WINHTTP_NO_PROXY_BYPASS, 0),
                        WinHttpCloseHandle};
   if (!session) return std::unexpected{lastError("WinHttpOpen")};
 

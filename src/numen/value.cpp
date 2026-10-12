@@ -47,7 +47,8 @@ std::string localize(std::string_view s, const NumberLocale &nloc) {
   const std::size_t sign = s.starts_with('-') ? 1 : 0;
 
   std::size_t end = sign;
-  while (end < s.size() && std::isdigit(static_cast<unsigned char>(s[end]))) ++end;
+  while (end < s.size() && std::isdigit(static_cast<unsigned char>(s[end])))
+    ++end;
 
   std::string out{s.substr(0, sign)};
   out += groupDigits(s.substr(sign, end - sign), nloc);
@@ -86,8 +87,7 @@ NumberLocale NumberLocale::from(const std::locale &loc) {
 
   // unicode space variants (U+202F on glibc for fr) become a plain space
   const auto sep = static_cast<uint32_t>(np.thousands_sep());
-  const bool spaceLike =
-      sep == 0xA0 || (sep >= 0x2000 && sep <= 0x200A) || sep == 0x202F || sep == 0x205F;
+  const bool spaceLike = sep == 0xA0 || (sep >= 0x2000 && sep <= 0x200A) || sep == 0x202F || sep == 0x205F;
 
   NumberLocale out;
   out.decimalPoint = utf8(np.decimal_point());
@@ -158,8 +158,7 @@ std::string Value::renderBase(NumberOutputFormat format) const {
 std::string Value::renderDecimal(const NumberLocale &nloc) const {
   if (std::isinf(m_n)) return m_n < 0 ? "-inf" : "inf";
 
-  if (std::abs(m_n) >= SCIENTIFIC_THRESHOLD)
-    return localize(std::format("{:.{}e}", m_n, MAX_DECIMALS), nloc);
+  if (std::abs(m_n) >= SCIENTIFIC_THRESHOLD) return localize(std::format("{:.{}e}", m_n, MAX_DECIMALS), nloc);
 
   if (isInteger()) {
     return localize(std::abs(m_n) < LLONG_RANGE ? std::format("{}", static_cast<long long>(m_n))

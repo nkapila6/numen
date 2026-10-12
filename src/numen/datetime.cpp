@@ -230,5 +230,4 @@ std::string DateTime::toString(const DateTimeFormatOptions &opts) const {
 
   return out;
 }
-
 } // namespace numen

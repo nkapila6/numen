@@ -141,7 +141,8 @@ struct UntilExpression {
 
 struct Expression {
   std::variant<BinaryExpression, UnaryExpression, PostfixExpression, NumberString, DateString, UnitExpression,
-               ConversionExpression, StringLiteral, Duration, FunctionCall, PercentExpression, UntilExpression>
+               ConversionExpression, StringLiteral, Duration, FunctionCall, PercentExpression,
+               UntilExpression>
       data;
 
   const BinaryExpression *asBinaryExpression() const { return as<BinaryExpression>(); }
@@ -201,7 +202,6 @@ public:
   std::optional<Converter> parseConverter();
   std::optional<RelativeDateTimeLiteral> parseRelativeDateTimeLiteral();
   std::optional<DateString> parseRFC3339();
-
 
   std::optional<std::chrono::seconds> parseTimezoneOffset();
 

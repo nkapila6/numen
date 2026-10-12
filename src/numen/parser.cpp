@@ -787,15 +787,15 @@ std::unique_ptr<Expression> Parser::parseUntil() {
   if (!untilFirst && !equalsIgnoreCase(first->raw, "time")) {
     auto candidates = m_unitDb.findUnitCandidates(first->raw);
     const bool isDuration = std::ranges::any_of(
-            candidates, [](const UnitDef &def) { return def.dimension == dimensions::DURATION; });
+        candidates, [](const UnitDef &def) { return def.dimension == dimensions::DURATION; });
 
     if (!isDuration) return nullptr;
-    unit = NamedUnit{ .terms = { NamedUnitTerm{ .name = first->raw }}};
+    unit = NamedUnit{.terms = {NamedUnitTerm{.name = first->raw}}};
   }
   m_lexer.advance(untilFirst ? 1 : 2);
   auto target = pratParse(1);
 
-  return std::make_unique<Expression>(UntilExpression{ .unit = std::move(unit), .target = std::move(target)});
+  return std::make_unique<Expression>(UntilExpression{.unit = std::move(unit), .target = std::move(target)});
 }
 
 std::unique_ptr<Expression> Parser::parseTerm() {
