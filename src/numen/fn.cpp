@@ -297,6 +297,15 @@ FunctionDatabase makeBuiltin() {
     return output(ctx, std::sqrt(sum), *nn.front(), UnitPolicy::Keep);
   });
 
+  // nth root, computes the root of degree n for the specified number
+  db.add("nrt", [](const FunctionCtx &ctx) {
+    ctx.expectAtLeast(2);
+    auto &n = ctx.number(0);
+    auto &degree = ctx.number(1);
+    auto result = std::pow(n.n.toDouble(), 1.0 / degree.n.toDouble());
+    return Computed{Num{result}};
+  });
+
   db.add("gcd", [](const FunctionCtx &ctx) {
     ctx.expectAtLeast(1);
     std::int64_t acc = 0;

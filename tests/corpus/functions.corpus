@@ -136,3 +136,10 @@ abs(1 == 1)                 => !error abs: argument 1 must be a number, got Bool
 gcd(1.5, 2)                 => !error gcd: argument 1 must be an integer, got 1.5
 round(2.5, 1.5)             => !error round: argument 2 must be an integer, got 1.5
 gcd(1e19, 2)                => !error gcd: argument 1 is too large
+
+# root of degree n
+nrt(9, 2)					=> 3
+nrt(27, 3)					=> 3
+nrt(128, 7)					=> 2
+nrt(256, 8)					=> 2
+nrt(2, 1)					=> 2
