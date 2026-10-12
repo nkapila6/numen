@@ -1,0 +1,5 @@
+# function parameter list does not have to be explicitly closed
+
+sqrt(9						=> 3
+min(2, 100					=> 2
+100 + max(50, 25			=> 150

@@ -924,9 +924,11 @@ std::unique_ptr<Expression> Parser::parseTerm() {
 
           fn.args.emplace_back(pratParse());
 
-          auto sep = m_lexer.peakOrThrow(unterminated);
-          if (sep.raw == ")") { break; }
-          if (!isFunctionParameterSeparator(sep.raw)) {
+          auto sep = m_lexer.peak();
+
+          if (!sep || sep->raw == ")") { break; }
+
+          if (!isFunctionParameterSeparator(sep->raw)) {
             throw std::runtime_error("Expected , to add another argument");
           }
 
