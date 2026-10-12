@@ -127,18 +127,6 @@ public:
             return stamp(v, Computed{d}, Timezone{v.asDateTime()->tz, v.asDateTime()->offset},
                          Timezone{d.tz, d.offset});
           }
-
-          if (auto unit = conv.target.unit; unit && unit->isSimple()) {
-            if (std::ranges::contains(std::initializer_list<std::string_view>{"unix", "epoch"},
-                                      unit->simpleName())) {
-              auto dt = v.asDateTime();
-              auto seconds_epoch =
-                  std::chrono::duration_cast<std::chrono::seconds>(dt->time.time_since_epoch()).count();
-
-              return stampUnit(v, Computed{Num{.n = Value{static_cast<double>(seconds_epoch)},
-                                               .unit = Number::Unit{.raw = "second"}}});
-            }
-          }
         }
 
         if (auto d = v.asDuration()) {
@@ -854,6 +842,8 @@ private:
     r.explicitlyConverted = std::ranges::any_of(computedArgs, &Computed::explicitlyConverted);
 
     if (std::ranges::contains(FunctionDatabase::builtin().converterNames(), fn.name)) {
+
+      r.explicitlyConverted = true;
       r.conversion = Conversion{.sides = ConversionOf<std::string>{.to = std::string{fn.name}}};
     }
 

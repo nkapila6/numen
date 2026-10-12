@@ -360,15 +360,35 @@ FunctionDatabase makeBuiltin() {
 
   // <timestamp> to epoch
   // epoch(<timestamp>)
+  // <date_time> to epoch
   // fromEpoch will automatically try to figure out what resolution is used
   // for the timestamp
-  db.addConverter("epoch", [](const FunctionCtx &ctx) {
+  const auto unixConverter = [](const FunctionCtx &ctx) {
     ctx.expectArgs(1);
-    const auto &epoch = ctx.number(0);
-    const auto dt = fromEpoch(epoch.n.toDouble());
-    return Computed{dt};
-  });
+    const auto arg = ctx.args[0];
 
+    return std::visit(
+        [&](const auto &value) -> Computed {
+          using T = std::remove_cvref_t<decltype(value)>;
+
+          if constexpr (std::is_same_v<T, DateTime>) {
+            auto secs =
+                std::chrono::duration_cast<std::chrono::seconds>(value.time.time_since_epoch()).count();
+            auto c = Computed{Num{.n = static_cast<double>(secs), .unit = Number::Unit{.raw = "second"}}};
+            return c;
+          } else if constexpr (std::is_same_v<T, Num>) {
+            const auto dt = fromEpoch(value.n.toDouble(), tz::current_zone());
+            return Computed{dt};
+          } else {
+            throw std::runtime_error(
+                std::format("epoch only accepts a DateTime or a Number as input", arg.valueTypeName()));
+          }
+        },
+        arg.value);
+  };
+
+  db.addConverter("epoch", unixConverter);
+  db.addConverter("unix", unixConverter);
   db.addConverter("json", [](const FunctionCtx &ctx) {
     ctx.expectArgs(1);
     auto &arg = ctx.args[0];
